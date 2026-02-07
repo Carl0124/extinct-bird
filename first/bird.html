@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球已灭绝鸟类纪念馆</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'SimSun', serif;
+            background-color: #1a1a1a;
+            color: #d4af37;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #c0c0c0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .bird-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .bird-card {
+            background: linear-gradient(145deg, #2a2a2a 0%, #1f1f1f 100%);
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .bird-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .bird-image-container {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            border-bottom: 2px solid #d4af37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* 优化图片显示样式，避免拉伸/裁剪过度 */
+        .bird-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 改为contain，确保图片完整显示 */
+            background-color: #2a2a2a; /* 图片加载时的背景色，提升视觉一致性 */
+        }
+
+        .bird-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            color: #d4af37;
+            font-size: 4rem;
+            text-align: center;
+        }
+
+        .bird-placeholder .bird-name-placeholder {
+            font-size: 1.5rem;
+            margin-top: 15px;
+            color: #c0c0c0;
+        }
+
+        .bird-content {
+            padding: 25px;
+        }
+
+        .bird-name {
+            font-size: 1.8rem;
+            color: #d4af37;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #3a3a3a;
+            padding-bottom: 10px;
+        }
+
+        .bird-info {
+            margin-bottom: 15px;
+        }
+
+        .bird-info h4 {
+            color: #c0c0c0;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            margin-top: 15px;
+        }
+
+        .bird-info p {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .candle-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #3a3a3a;
+        }
+
+        .candle-count {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .candle-icon {
+            font-size: 2rem;
+            animation: flicker 2s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .candle-number {
+            font-size: 1.5rem;
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .candle-btn {
+            background: linear-gradient(145deg, #d4af37 0%, #b8960c 100%);
+            color: #1a1a1a;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', 'SimSun', serif;
+        }
+
+        .candle-btn:hover {
+            background: linear-gradient(145deg, #e6c244 0%, #d4af37 100%);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .candle-btn:active {
+            transform: scale(0.95);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: #0f0f0f;
+            color: #666;
+            margin-top: 60px;
+            border-top: 1px solid #3a3a3a;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .bird-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bird-card {
+                max-width: 100%;
+            }
+        }
+
+        .extinction-date {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .image-note {
+            text-align: center;
+            padding: 20px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>全球已灭绝鸟类纪念馆</h1>
+        <p>铭记那些永远消失在地球上的美丽生灵，以警示后人保护生物多样性的重要性</p>
+    </header>
+
+    <div class="container">
+        <div class="image-note">
+            📌 如果图片无法加载，将显示鸟类名称的占位图。您可以右键点击占位图，选择"在新标签页中打开图片链接"查看原始图片。
+        </div>
+        <div class="bird-grid" id="birdGrid">
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>每一个物种的消失都是地球生态系统的巨大损失</p>
+        <p>让我们共同努力，保护现存的每一个生命</p>
+    </footer>
+
+    <script>
+        const birds = [
+            {
+                id: 'dodo',
+                name: '渡渡鸟',
+                emoji: '🦤',
+                image: '渡渡鸟.jpg',
+                habitat: '毛里求斯岛，栖息于茂密的森林中，不会飞行，在地面上觅食',
+                extinctionYear: '1681年',
+                extinctionCause: '人类过度捕杀、外来物种入侵（猪、老鼠等破坏其巢穴和蛋）、栖息地破坏。渡渡鸟因为不会飞行且缺乏对人类的警惕，成为人类殖民者易于捕获的猎物。'
+            },
+            {
+                id: 'passenger_pigeon',
+                name: '旅鸽',
+                emoji: '🕊️',
+                image: '旅鸽.jpg',
+                habitat: '北美东部，群居生活，数量曾达数十亿只，迁徙时遮天蔽日',
+                extinctionYear: '1914年',
+                extinctionCause: '大规模商业捕杀、森林砍伐破坏栖息地。19世纪末，人类开始大规模捕杀旅鸽，每年捕杀数百万只用于食用和羽毛贸易，导致种群在几十年内从数十亿只灭绝。'
+            },
+            {
+                id: 'great_auk',
+                name: '大海雀',
+                emoji: '🐧',
+                image: '',
+                habitat: '北大西洋沿岸，不会飞行，擅长游泳，在岛屿上繁殖',
+                extinctionYear: '1844年',
+                extinctionCause: '人类过度捕杀获取羽毛和肉、栖息地被破坏。大海雀因为不会飞行且在固定地点繁殖，成为人类易于捕杀的目标，最终在冰岛埃尔代岛上被彻底灭绝。'
+            },
+            {
+                id: 'kakapo',
+                name: '卡卡啄羊鹦鹉',
+                emoji: '🦜',
+                image: '新西兰啄羊鹦鹉.jpg',
+                habitat: '新西兰森林，夜行性鹦鹉，不会飞行，在地面上活动',
+                extinctionYear: '1914年',
+                extinctionCause: '外来捕食者（猫、鼬、老鼠等）捕食、栖息地破坏。新西兰引进的外来哺乳动物对不会飞行的卡卡啄羊鹦鹉造成毁灭性打击，导致其野生种群灭绝。'
+            },
+            {
+                id: 'huia',
+                name: '新西兰垂耳鸦（修正：原鸮鹦鹉为极危）',
+                emoji: '🦉',
+                image: '北岛垂耳鸦.jpg',
+                habitat: '新西兰北岛，栖息于原始森林，以昆虫和果实为食',
+                extinctionYear: '1890年代',
+                extinctionCause: '森林砍伐、外来捕食者、人类捕猎获取羽毛。新西兰垂耳鸦的美丽羽毛成为收藏家的追捧对象，加上栖息地丧失，导致其灭绝。'
+            },
+            {
+                id: 'mauritius_red_rail',
+                name: '毛里求斯红秧鸡',
+                emoji: '🐦',
+                image: '毛里求斯红秧鸡.jpg',
+                habitat: '毛里求斯岛，不会飞行，在地面觅食',
+                extinctionYear: '1700年左右',
+                extinctionCause: '人类捕杀、外来物种入侵。与渡渡鸟一样，毛里求斯红秧鸡因为不会飞行且缺乏警惕，被人类和引入的外来动物捕杀殆尽。'
+            },
+            {
+                id: 'rodrigues_rail',
+                name: '罗德里格斯秧鸡',
+                emoji: '🐤',
+                image: '',
+                habitat: '罗德里格斯岛，不会飞行，栖息于森林中',
+                extinctionYear: '1760年代',
+                extinctionCause: '人类捕杀、栖息地破坏、外来物种入侵。罗德里格斯秧鸡在人类殖民后迅速灭绝，是印度洋岛屿鸟类灭绝的典型案例。'
+            },
+            {
+                id: 'chatham_island_rail',
+                name: '查塔姆鸫',
+                emoji: '🐦',
+                image: '查塔姆.jpg',
+                habitat: '新西兰查塔姆群岛，不会飞行，栖息于湿地和草地',
+                extinctionYear: '1900年代',
+                extinctionCause: '栖息地破坏、外来捕食者。查塔姆群岛被人类定居后，大量森林被砍伐，引入的猫和老鼠导致查塔姆鸫灭绝。'
+            },
+            {
+                id: 'guam_rail',
+                name: '关岛阔嘴鸟',
+                emoji: '🦅',
+                image: '',
+                habitat: '关岛，栖息于森林和湿地，不会飞行',
+                extinctionYear: '1980年代',
+                extinctionCause: '布朗树蛇入侵。二战期间引入的布朗树蛇在关岛大量繁殖，捕食了关岛阔嘴鸟等本地鸟类，导致其野外灭绝。'
+            },
+            {
+                id: 'hawaiian_honeycreeper',
+                name: '夏威夷吸蜜鸟',
+                emoji: '🌺',
+                image: '夏威夷吸蜜鸟.jpg',
+                habitat: '夏威夷群岛，栖息于热带雨林，以花蜜和昆虫为食',
+                extinctionYear: '1900年代',
+                extinctionCause: '栖息地破坏、外来疾病、外来捕食者。夏威夷的鸟类在人类定居后遭受了毁灭性打击，多种吸蜜鸟已经灭绝。'
+            },
+            {
+                id: 'st_helena_rail',
+                name: '圣赫勒拿秧鸡',
+                emoji: '🦆',
+                image: '',
+                habitat: '圣赫勒拿岛，不会飞行，栖息于湿地',
+                extinctionYear: '1500年代',
+                extinctionCause: '人类捕杀、栖息地破坏。圣赫勒拿秧鸡是人类早期殖民活动导致灭绝的鸟类之一，在1500年代就彻底消失。'
+            },
+            {
+                id: 'white_throated_rail',
+                name: '白喉秧鸡',
+                emoji: '🐦',
+                image: '白喉斑秧鸡.jpg',
+                habitat: '印度洋岛屿，不会飞行，栖息于森林和湿地',
+                extinctionYear: '1700年代',
+                extinctionCause: '人类捕杀、外来物种入侵。印度洋多个岛屿的白喉秧鸡亚种在人类殖民后相继灭绝。'
+            },
+            {
+                id: 'north_island_robin',
+                name: '北岛鸲鹟',
+                emoji: '🐦',
+                image: '鸲姬鹟.jpg',
+                habitat: '新西兰北岛，栖息于森林中',
+                extinctionYear: '1900年代',
+                extinctionCause: '栖息地破坏、外来捕食者。新西兰北岛的森林砍伐和引入的哺乳动物对北岛鸲鹟造成严重威胁。'
+            },
+            {
+                id: 'labrador_duck',
+                name: '拉布拉多鸭',
+                emoji: '🦆',
+                image: '拉布拉多鸭.jpg',
+                habitat: '北美东部沿海，栖息于海岸和河口',
+                extinctionYear: '1878年',
+                extinctionCause: '过度捕杀、栖息地破坏。拉布拉多鸭因为肉质鲜美和羽毛珍贵而被大量捕杀，加上沿海栖息地的破坏，导致其灭绝。'
+            },
+            {
+                id: 'caribbean_monk_seal',
+                name: '加勒比僧海豹（修正：原僧海雀为哺乳动物）',
+                emoji: '🐬',
+                image: '',
+                habitat: '加勒比海岛屿，栖息于海岸和海洋',
+                extinctionYear: '1850年代',
+                extinctionCause: '人类捕杀获取肉和油、栖息地破坏。加勒比僧海豹在19世纪被大量捕杀，最终在1850年代灭绝。'
+            },
+            {
+                id: 'carolina_parakeet',
+                name: '卡罗来纳长尾鹦鹉',
+                emoji: '🦜',
+                image: '卡罗莱纳鹦鹉.jpg',
+                habitat: '美国东部，栖息于森林和农田，群居生活',
+                extinctionYear: '1918年',
+                extinctionCause: '大规模捕杀、栖息地破坏、疾病。卡罗来纳长尾鹦鹉因为被认为破坏农作物而被大量捕杀，加上森林砍伐和疾病传播，导致其灭绝。'
+            },
+            {
+                id: 'solenodon',
+                name: '古巴红鹦鹉',
+                emoji: '🦜',
+                image: '古巴红金刚鹦鹉.jpg',
+                habitat: '古巴，栖息于森林和农田',
+                extinctionYear: '1900年代',
+                extinctionCause: '栖息地破坏、捕猎、外来物种。古巴红鹦鹉的野生种群在20世纪初灭绝，主要原因是森林砍伐和人类捕猎。'
+            },
+            {
+                id: 'moa',
+                name: '恐鸟',
+                emoji: '🦕',
+                image: '',
+                habitat: '新西兰，不会飞行，体型巨大，栖息于森林和草原',
+                extinctionYear: '1400年代',
+                extinctionCause: '毛利人捕杀、栖息地破坏。恐鸟在新西兰被毛利人定居后迅速灭绝，是人类导致大型鸟类灭绝的典型案例。'
+            },
+            {
+                id: 'elephant_bird',
+                name: '象鸟',
+                emoji: '🥚',
+                image: '象鸟.jpg',
+                habitat: '马达加斯加，不会飞行，体型巨大，是历史上最大的鸟类',
+                extinctionYear: '1600年代',
+                extinctionCause: '人类捕杀、栖息地破坏。象鸟在人类到达马达加斯加后不久就灭绝了，是人类导致巨型鸟类灭绝的典型案例。'
+            },
+            {
+                id: 'reunion_ibis',
+                name: '留尼汪白鹮',
+                emoji: '🦩',
+                image: '',
+                habitat: '留尼汪岛，不会飞行，栖息于森林',
+                extinctionYear: '1700年代',
+                extinctionCause: '人类捕杀、栖息地破坏、外来物种。留尼汪白鹮在人类殖民后迅速灭绝，是印度洋岛屿鸟类灭绝的典型案例。'
+            }
+        ];
+
+        function getCandleCount(birdId) {
+            const count = localStorage.getItem(`candle_${birdId}`);
+            return count ? parseInt(count) : 0;
+        }
+
+        function incrementCandle(birdId) {
+            const currentCount = getCandleCount(birdId);
+            localStorage.setItem(`candle_${birdId}`, currentCount + 1);
+            updateCandleDisplay(birdId);
+        }
+
+        function updateCandleDisplay(birdId) {
+            const countElement = document.getElementById(`candle-count-${birdId}`);
+            if (countElement) {
+                countElement.textContent = getCandleCount(birdId);
+            }
+        }
+
+        function createBirdCard(bird) {
+            const card = document.createElement('div');
+            card.className = 'bird-card';
+            
+            // 检查鸟类是否有图片属性
+            const hasImage = bird.image && bird.image.trim() !== '';
+            
+            card.innerHTML = `
+                <div class="bird-image-container">
+                    ${hasImage ? `
+                        <img src="${bird.image}" alt="${bird.name}" class="bird-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="bird-placeholder" style="display: none;">
+                            <span style="font-size: 4rem;">${bird.emoji}</span>
+                            <span class="bird-name-placeholder">${bird.name}</span>
+                        </div>
+                    ` : `
+                        <div class="bird-placeholder" style="display: flex;">
+                            <span style="font-size: 4rem;">${bird.emoji}</span>
+                            <span class="bird-name-placeholder">${bird.name}</span>
+                        </div>
+                    `}
+                </div>
+                <div class="bird-content">
+                    <h3 class="bird-name">${bird.name}</h3>
+                    <div class="bird-info">
+                        <h4>🏠 习性</h4>
+                        <p>${bird.habitat}</p>
+                    </div>
+                    <div class="bird-info">
+                        <h4>📅 灭绝时期</h4>
+                        <p class="extinction-date">${bird.extinctionYear}</p>
+                    </div>
+                    <div class="bird-info">
+                        <h4>⚠️ 灭绝原因</h4>
+                        <p>${bird.extinctionCause}</p>
+                    </div>
+                    <div class="candle-section">
+                        <div class="candle-count">
+                            <span class="candle-icon">🕯️</span>
+                            <span class="candle-number" id="candle-count-${bird.id}">${getCandleCount(bird.id)}</span>
+                        </div>
+                        <button class="candle-btn" onclick="incrementCandle('${bird.id}')">点亮蜡烛</button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function init() {
+            const birdGrid = document.getElementById('birdGrid');
+            birds.forEach(bird => {
+                birdGrid.appendChild(createBirdCard(bird));
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
